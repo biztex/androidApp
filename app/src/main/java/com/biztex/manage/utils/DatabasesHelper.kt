@@ -1,10 +1,13 @@
 package com.biztex.manage.utils
 
+import android.annotation.SuppressLint
 import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
+import android.util.Log
 import com.biztex.manage.model.User
+import at.favre.lib.crypto.bcrypt.BCrypt
 
 class DatabasesHelper(context: Context): SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
     companion object{
@@ -27,6 +30,17 @@ class DatabasesHelper(context: Context): SQLiteOpenHelper(context, DATABASE_NAME
     // SQL statement to drop the user table
     private val DROP_USER_TABLE = "DROP TABLE IF EXISTS $TABLE_USER"
 
+    // Hashing Password
+    fun hashPassword(password: String): String {
+        val bcryptHashString = BCrypt.withDefaults().hashToString(12, password.toCharArray())
+        return bcryptHashString
+    }
+
+    fun verifyPassword(password: String, hash: String): Boolean {
+        val result = BCrypt.verifyer().verify(password.toCharArray(), hash)
+        return result.verified
+    }
+
     override fun onCreate(db: SQLiteDatabase) {
         db.execSQL(CREATE_USER_TABLE)
     }
@@ -38,29 +52,35 @@ class DatabasesHelper(context: Context): SQLiteOpenHelper(context, DATABASE_NAME
 
     fun addUser(user: User) {
         val db = this.writableDatabase
-
+        val hashPassword = hashPassword(user.password)
         val values = ContentValues()
         values.put(COLUMN_USER_NAME, user.username)
         values.put(COLUMN_USER_EMAIL, user.email)
-        values.put(COLUMN_USER_PASSWORD, user.password)
+        values.put(COLUMN_USER_PASSWORD, hashPassword)
 
         db.insert(TABLE_USER, null, values)
         db.close()
     }
 
     fun validateUser(username: String, password: String): Boolean {
-        val columns = arrayOf(COLUMN_USER_ID)
+        val columns = arrayOf(COLUMN_USER_PASSWORD) // Ensure you're querying the password column
         val db = this.readableDatabase
-        val selection = "$COLUMN_USER_NAME = ? AND $COLUMN_USER_PASSWORD = ?"
-        val selectionArgs = arrayOf(username, password)
+        val selection = "$COLUMN_USER_NAME = ?"
+        val selectionArgs = arrayOf(username)
 
-        val cursor = db.query(TABLE_USER, columns, selection, selectionArgs, null, null, null)
+        db.query(TABLE_USER, columns, selection, selectionArgs, null, null, null).use { cursor ->
+            if (cursor != null && cursor.moveToFirst()) {
+                val passwordIndex = cursor.getColumnIndex(COLUMN_USER_PASSWORD)
+                if (passwordIndex != -1) { // Check if the column index is valid
+                    val hashedPassword = cursor.getString(passwordIndex)
+                    db.close() // Close database before returning
+                    return verifyPassword(password, hashedPassword)
+                }
+            }
+        }
 
-        val cursorCount = cursor.count
-        cursor.close()
-        db.close()
-
-        return cursorCount > 0
+        db.close() // Make sure to close the database if cursor condition fails
+        return false
     }
 
 }

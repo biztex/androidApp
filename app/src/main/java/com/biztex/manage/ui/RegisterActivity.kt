@@ -2,15 +2,11 @@ package com.biztex.manage.ui
 
 import android.os.Bundle
 import android.view.View
-import android.widget.Button
-import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.get
 import com.biztex.manage.R
 import com.biztex.manage.model.User
 import com.biztex.manage.utils.DatabasesHelper
-import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 
 class RegisterActivity : AppCompatActivity() {

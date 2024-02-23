@@ -55,14 +55,12 @@ class DatabasesHelper(context: Context): SQLiteOpenHelper(context, DATABASE_NAME
         val selectionArgs = arrayOf(username, password)
 
         val cursor = db.query(TABLE_USER, columns, selection, selectionArgs, null, null, null)
+
         val cursorCount = cursor.count
         cursor.close()
         db.close()
 
-        if (cursorCount > 0) {
-            return true
-        }
-        return false
+        return cursorCount > 0
     }
 
 }

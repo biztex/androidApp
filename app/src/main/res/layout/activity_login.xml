@@ -74,9 +74,11 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:text="@string/button_sign_in"
+        android:onClick="signIn"
         app:layout_constraintBottom_toTopOf="@+id/button_sign_up"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+    />
 
 
     <Button
@@ -88,7 +90,7 @@
         android:text="@string/button_sign_up"
         android:textAllCaps="false"
         android:textSize="12sp"
-        android:onClick="signUp"
+        android:onClick="signUpLayout"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

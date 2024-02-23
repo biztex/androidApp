@@ -22,30 +22,27 @@ class LoginActivity:AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
-
+    }
+    fun signIn(view: View){
         val db = DatabasesHelper(this)
+        val etUsernameLayout = findViewById<TextInputLayout>(R.id.edit_username)
+        val etPasswordLayout = findViewById<TextInputLayout>(R.id.edit_password)
 
-        val etUsername = findViewById<EditText>(R.id.edit_username_input)
-        val etPassword = findViewById<EditText>(R.id.edit_password_input)
-        val btnLogin = findViewById<Button>(R.id.login_btn)
-        btnLogin.setOnClickListener {
-            val username = etUsername.text.toString().trim()
-            val password = etPassword.text.toString().trim()
+        val username = etUsernameLayout.editText?.text.toString().trim()
+        val password = etPasswordLayout.editText?.text.toString().trim()
 
-            if (db.validateUser(username, password)) {
-                Toast.makeText(this, "Login Successful", Toast.LENGTH_SHORT).show()
-                val intent = Intent(this, MainActivity::class.java)
-                startActivity(intent);
-                finish()
-            } else {
-                // Login failed, show error message
-                Toast.makeText(this, "Login Failed", Toast.LENGTH_SHORT).show()
-            }
+        if (db.validateUser(username, password)) {
+            Toast.makeText(this, "Login Successful", Toast.LENGTH_SHORT).show()
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent);
+            finish()
+        } else {
+            // Login failed, show error message
+            Toast.makeText(this, "Login Failed", Toast.LENGTH_SHORT).show()
         }
-
     }
 
-    fun signUp(view: View) {
+    fun signUpLayout(view: View) {
         val registerIntent = Intent(this, RegisterActivity::class.java)
         startActivity(registerIntent)
         startActivity(intent)

@@ -16,7 +16,6 @@
         android:gravity="center"
         android:text="@string/login_text"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        android:textColor="@color/white"
         android:textSize="36sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -25,7 +24,7 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/edit_username"
-        style="@style/ThemeOverlay.Material3.TextInputEditText.OutlinedBox"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
@@ -41,14 +40,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="text"
-            android:maxLines="1"
-            android:textColor="@color/white"/>
+            android:maxLines="1"/>
 
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/edit_password"
-        style="@style/ThemeOverlay.Material3.TextInputEditText.OutlinedBox"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
@@ -65,26 +63,35 @@
             android:id="@+id/edit_password_input"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textPassword"
-            android:maxLines="1"
-            android:textColor="@color/white"/>
+            android:inputType="textPassword"/>
 
 
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
         android:id="@+id/login_btn"
-        android:layout_width="150dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:elevation="10dp"
-        android:outlineProvider="bounds"
-        android:text="LogIn"
-        android:textSize="16sp"
+        android:layout_marginBottom="8dp"
+        android:text="@string/button_sign_in"
+        app:layout_constraintBottom_toTopOf="@+id/button_sign_up"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+
+    <Button
+        android:id="@+id/button_sign_up"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="32dp"
+        android:text="@string/button_sign_up"
+        android:textAllCaps="false"
+        android:textSize="12sp"
+        android:onClick="signUp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.834" />
-
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

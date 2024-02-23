@@ -13,6 +13,7 @@ class DatabasesHelper(context: Context): SQLiteOpenHelper(context, DATABASE_NAME
         private const val TABLE_USER = "user"
         private const val COLUMN_USER_ID = "user_id"
         private const val COLUMN_USER_NAME = "user_name"
+        private const val COLUMN_USER_EMAIL = "user_email"
         private const val COLUMN_USER_PASSWORD = "user_password"
     }
     // SQL statement to create the user table
@@ -20,6 +21,7 @@ class DatabasesHelper(context: Context): SQLiteOpenHelper(context, DATABASE_NAME
             "CREATE TABLE $TABLE_USER(" +
                     "$COLUMN_USER_ID INTEGER PRIMARY KEY AUTOINCREMENT," +
                     "$COLUMN_USER_NAME TEXT," +
+                    "$COLUMN_USER_EMAIL TEXT," +
                     "$COLUMN_USER_PASSWORD TEXT" + ")")
 
     // SQL statement to drop the user table
@@ -39,6 +41,7 @@ class DatabasesHelper(context: Context): SQLiteOpenHelper(context, DATABASE_NAME
 
         val values = ContentValues()
         values.put(COLUMN_USER_NAME, user.username)
+        values.put(COLUMN_USER_EMAIL, user.email)
         values.put(COLUMN_USER_PASSWORD, user.password)
 
         db.insert(TABLE_USER, null, values)
@@ -56,7 +59,10 @@ class DatabasesHelper(context: Context): SQLiteOpenHelper(context, DATABASE_NAME
         cursor.close()
         db.close()
 
-        return cursorCount > 0
+        if (cursorCount > 0) {
+            return true
+        }
+        return false
     }
 
 }

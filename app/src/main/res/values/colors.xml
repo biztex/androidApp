@@ -3,18 +3,8 @@
     <color name="colorPrimary">#f769ca</color>
     <color name="colorBackgroundLoginBottom">#452f75</color>
     <color name="colorPrimaryDark">#000023</color>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
     <!--    colors for sign up activity    -->
     <color name="colorPrimarySignUp">#f769ca</color>
     <color name="colorBackgroundLoginBottomSignUp">#1e2b73</color>
     <color name="colorPrimaryDarkSignUp">#010137</color>
-    <color name="text_input_layout_stroke_color">
-        <selector xmlns:android="http://schemas.android.com/apk/res/android">
-            <item android:alpha="..." android:color="@color/...." android:state_focused="true"/>
-            <item android:alpha="..." android:color="@color/...." android:state_hovered="true"/>
-            <item android:alpha="..." android:color="@color/...." android:state_enabled="false"/>
-            <item android:alpha="..." android:color="@color/...."/>  <!-- unfocused -->
-        </selector>
-    </color>
 </resources>

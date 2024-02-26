@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "25285118805",
+    "project_id": "manage-app-biztex",
+    "storage_bucket": "manage-app-biztex.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:25285118805:android:8aeb64558afa0ec54fbddc",
+        "android_client_info": {
+          "package_name": "com.biztex.manage"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "25285118805-s1066o8fq5kc5u2g9rcggp0c18i3gtfc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB4GlxWqAzE1Z2EJbJH0g2P4uRkCHttURg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "25285118805-s1066o8fq5kc5u2g9rcggp0c18i3gtfc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

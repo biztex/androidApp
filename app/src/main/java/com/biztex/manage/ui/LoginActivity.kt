@@ -25,7 +25,7 @@ class LoginActivity:AppCompatActivity() {
     }
     fun signIn(view: View){
         val db = DatabasesHelper(this)
-        val etUsernameLayout = findViewById<TextInputLayout>(R.id.edit_username)
+        val etUsernameLayout = findViewById<TextInputLayout>(R.id.edit_email)
         val etPasswordLayout = findViewById<TextInputLayout>(R.id.edit_password)
 
         val username = etUsernameLayout.editText?.text.toString().trim()

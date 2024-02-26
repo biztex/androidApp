@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+    <color name="colorPrimary">#f769ca</color>
+    <color name="colorBackgroundLoginBottom">#452f75</color>
+    <color name="colorPrimaryDark">#000023</color>
+    <!--    colors for sign up activity    -->
+    <color name="colorPrimarySignUp">#f769ca</color>
+    <color name="colorBackgroundLoginBottomSignUp">#1e2b73</color>
+    <color name="colorPrimaryDarkSignUp">#010137</color>
 </resources>

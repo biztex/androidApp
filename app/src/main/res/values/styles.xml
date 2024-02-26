@@ -1,0 +1,12 @@
+<resources>
+    <!-- Base application theme. -->
+    <style name="SignUpActivityStyle" parent="Theme.MaterialComponents.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimarySignUp</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDarkSignUp</item>
+    </style>
+
+    <style name="AppTheme" parent="Theme.MaterialComponents.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+    </style>
+</resources>

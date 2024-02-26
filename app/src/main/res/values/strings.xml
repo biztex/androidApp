@@ -15,4 +15,15 @@
         diam, vel rutrum tellus vulputate quis. Aliquam eget libero aliquet, imperdiet nisl a,
         ornare ex. Sed rhoncus est ut libero porta lobortis. Fusce in dictum tellus.
     </string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="login_text">LOGIN</string>
+    <string name="edit_text_username">Username</string>
+    <string name="edit_text_password">Password</string>
+    <string name="button_sign_up">Don\'t have an account? Sign up!</string>
+    <string name="button_sign_in">SIGN IN</string>
+    <string name="sing_up">Sign Up</string>
+    <string name="button_sign_up_activity">SIGN UP</string>
+    <string name="edit_text_password_confirm">Confirm Password</string>
+    <string name="edit_text_email">Email</string>
 </resources>

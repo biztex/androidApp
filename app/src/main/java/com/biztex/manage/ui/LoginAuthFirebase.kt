@@ -38,6 +38,11 @@ class LoginAuthFirebase: AppCompatActivity() {
         signInFunc(emailInputValue, passwordInputValue)
     }
 
+    fun signUpLayout(view: View){
+        val singUpIntent = Intent(this, SignUpAuthFirebase::class.java)
+        startActivity(singUpIntent)
+    }
+
 
     private fun signInFunc(email:String, password: String){
         auth.signInWithEmailAndPassword(email, password)

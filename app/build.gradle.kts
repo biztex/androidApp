@@ -36,7 +36,10 @@ android {
     }
     buildFeatures {
         viewBinding = true
+        dataBinding = true
+
     }
+
 }
 
 dependencies {
@@ -53,6 +56,7 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0")
     implementation("at.favre.lib:bcrypt:0.9.0")
     implementation("com.google.firebase:firebase-auth:22.3.1")
+    implementation("androidx.databinding:databinding-runtime:8.3.1")
 
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")

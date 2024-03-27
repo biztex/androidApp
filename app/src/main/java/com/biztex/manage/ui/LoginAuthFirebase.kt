@@ -48,20 +48,47 @@ class LoginAuthFirebase: AppCompatActivity() {
         auth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener(this) { task ->
                 if(task.isSuccessful){
-                    Toast.makeText(baseContext, "Authentication successful.", Toast.LENGTH_SHORT).show()
-                    val mainIntent = Intent(this, MainActivity::class.java)
-                    startActivity(mainIntent)
-                    finish()
+                    val user = auth.currentUser
+                    if(user != null && user.isEmailVerified){
+                        Toast.makeText(baseContext, "Authentication successful.", Toast.LENGTH_SHORT).show()
+                        val mainIntent = Intent(this, MainActivity::class.java)
+                        startActivity(mainIntent)
+                        finish()
+                    }else{
+                        Toast.makeText(baseContext, "Email not verified.", Toast.LENGTH_SHORT).show()
+                    }
                 }else {
                     Toast.makeText(baseContext, "Authentication failed.", Toast.LENGTH_SHORT).show()
                 }
             }
     }
+//
+//    private fun handleSignInWithLink(intent: Intent) {
+//        val emailLink = intent.data.toString()
+//
+//        if (auth.isSignInWithEmailLink(emailLink)) {
+//            // The intent contains an email link for sign-in. You need to retrieve the email address and complete sign-in.
+//            val email = retrieveEmailFromStorage() // Implement method to retrieve saved email
+//
+//            auth.signInWithEmailLink(email, emailLink)
+//                .addOnCompleteListener { task ->
+//                    if (task.isSuccessful) {
+//                        // Sign-in succeeded, navigate to your main content
+//                    } else {
+//                        // Handle failure
+//                    }
+//                }
+//        }
+//    }
+//    private fun retrieveEmailFromStorage(): String {
+//        // Implement retrieval of the stored email. Placeholder for your implementation.
+//        return "user@example.com"
+//    }
 
     override fun onStart() {
         super.onStart()
         val currentUser = auth.currentUser
-        if(currentUser != null){
+        if(currentUser != null && currentUser.isEmailVerified){
             val mainIntent = Intent(this, MainActivity::class.java)
             startActivity(mainIntent)
             finish()

@@ -1,7 +1,5 @@
 package com.biztex.manage.ui
 
-import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
@@ -14,8 +12,6 @@ import androidx.databinding.DataBindingUtil
 import com.biztex.manage.R
 import com.biztex.manage.databinding.ActivityRegisterBinding
 import com.biztex.manage.utils.ValidationForm
-import com.google.android.material.textfield.TextInputLayout
-import com.google.firebase.auth.ActionCodeSettings
 import com.google.firebase.auth.FirebaseAuth
 
 class SignUpAuthFirebase: AppCompatActivity(){
@@ -30,12 +26,12 @@ class SignUpAuthFirebase: AppCompatActivity(){
         setupListeners()
 
         binding.buttonRegister.setOnClickListener {
-            if (isValidate()){
-                val emailLayout = findViewById<TextInputLayout>(R.id.edit_register_email)
-                val passwordLayout = findViewById<TextInputLayout>(R.id.edit_register_password)
-                val email = emailLayout.editText?.text.toString().trim()
-                val password = passwordLayout.editText?.text.toString().trim()
-                //signUpFunc(email, password)
+            val userName: String = binding.etRegisterUsername.text.toString().trim()
+            val email: String = binding.etRegisterEmail.text.toString().trim()
+            val password: String = binding.etRegisterPassword.text.toString().trim()
+            val passwordConfirm: String = binding.etRegisterPasswordConfirm.text.toString().trim()
+            if (isValidate(userName, email, password, passwordConfirm)){
+                signUpFunc(email, password)
             }
         }
 
@@ -43,12 +39,16 @@ class SignUpAuthFirebase: AppCompatActivity(){
 
     private fun setupListeners() {
         binding.etRegisterUsername.addTextChangedListener(TextFieldValidation(binding.etRegisterUsername))
+        binding.etRegisterEmail.addTextChangedListener(TextFieldValidation(binding.etRegisterEmail))
+        binding.etRegisterPassword.addTextChangedListener(TextFieldValidation(binding.etRegisterPassword))
+        binding.etRegisterPasswordConfirm.addTextChangedListener(TextFieldValidation(binding.etRegisterPasswordConfirm))
     }
 
-    private fun isValidate(): Boolean = validateUserName()
+    private fun isValidate(userName: String, email: String, password: String, passwordConfirm: String): Boolean =
+        validateUserName(userName) && validateEmail(email) && validatePassword(password) && validatePasswordConfirm(password, passwordConfirm)
 
-    private fun validateUserName(): Boolean {
-        if (binding.etRegisterUsername.text.toString().trim().isEmpty()) {
+    private fun validateUserName(userName: String): Boolean {
+        if (userName.isEmpty()) {
             binding.editRegisterUsername.error = "Please enter username."
             binding.etRegisterUsername.requestFocus()
             return false
@@ -57,6 +57,54 @@ class SignUpAuthFirebase: AppCompatActivity(){
         }
         return true
     }
+
+    private fun validateEmail(email: String): Boolean {
+        if(email.isEmpty()){
+            binding.editRegisterEmail.error = "Please enter email."
+            binding.editRegisterEmail.requestFocus()
+
+            return false
+        }else if(!ValidationForm.isValidEmail(email)){
+            binding.editRegisterEmail.error = "The email format does not match."
+            binding.editRegisterEmail.requestFocus()
+            return false
+        }else{
+            binding.editRegisterEmail.error = null
+        }
+        return true
+    }
+
+
+    private fun validatePassword(password: String): Boolean{
+        if(password.isEmpty()){
+            binding.editRegisterPassword.error = "Please enter password."
+            binding.editRegisterPassword.requestFocus()
+            return false
+        }else if(!ValidationForm.isValidPassword(password)){
+            binding.editRegisterPassword.error = "The password format does not match."
+            binding.editRegisterPassword.requestFocus()
+            return false
+        }else{
+            binding.editRegisterPassword.error = null
+        }
+        return true
+    }
+
+    private fun validatePasswordConfirm(password: String, passwordConfirm: String): Boolean {
+        if(passwordConfirm.isEmpty()){
+            binding.editRegisterPasswordConfirm.error = "Please enter the confirm password."
+            binding.editRegisterPasswordConfirm.requestFocus()
+            return false
+        }else if(passwordConfirm != password){
+            binding.editRegisterPasswordConfirm.error = "The password does not match."
+            binding.editRegisterPasswordConfirm.requestFocus()
+            return false
+        }else{
+            binding.editRegisterPasswordConfirm.error = null
+        }
+        return true
+    }
+
 
 
 
@@ -68,40 +116,27 @@ class SignUpAuthFirebase: AppCompatActivity(){
         override fun afterTextChanged(s: Editable?) {}
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
         override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            val userName: String = binding.etRegisterUsername.text.toString().trim()
+            val passwordConfirm: String = binding.etRegisterPasswordConfirm.text.toString().trim()
+            val email: String = binding.etRegisterEmail.text.toString().trim()
+            val password: String = binding.etRegisterPassword.text.toString().trim()
             // checking ids of each text field and applying functions accordingly.
             when (view.id) {
                 R.id.etRegisterUsername -> {
-                    validateUserName()
+                    validateUserName(userName)
+                }
+                R.id.etRegisterEmail -> {
+                    validateEmail(email)
+                }
+                R.id.etRegisterPassword -> {
+                    validatePassword(password)
+                }
+                R.id.etRegisterPasswordConfirm -> {
+                    validatePasswordConfirm(password, passwordConfirm)
                 }
             }
         }
     }
-
-    fun signUp(view: View){
-//
-//        if(username.isEmpty()){
-//            usernameLayout.error = "Please enter username."
-//            Toast.makeText(this, "Please enter username.", Toast.LENGTH_SHORT).show()
-//            return
-//        }
-//        if(!ValidationForm.isValidEmail(email)){
-//            emailLayout.error = "Email format is invalid."
-//            Toast.makeText(this, "Email format is invalid.", Toast.LENGTH_SHORT).show()
-//            return
-//        }
-//        if(!ValidationForm.isValidPassword(password)){
-//            passwordLayout.error = "Please enter at least 8 alphanumeric characters.";
-//            Toast.makeText(this, "Password format is invalid.", Toast.LENGTH_SHORT).show()
-//            return
-//        }
-//        if(password != passwordConfirm){
-//            passwordConfirmLayout.error = "The password does not match.";
-//            Toast.makeText(this, "The password does not match.", Toast.LENGTH_SHORT).show()
-//            return
-//        }
-
-    }
-
 
 
     private fun signUpFunc(email: String, password: String){
@@ -109,42 +144,31 @@ class SignUpAuthFirebase: AppCompatActivity(){
             .addOnCompleteListener(this) { task ->
                 if(task.isSuccessful){
                     Log.d(TAG, "createUserWithEmail:success")
-                    sendVerificationEmail()
+                    auth.addAuthStateListener {
+                        it.currentUser?.let { firebase ->
+                            firebase.sendEmailVerification()
+                                .addOnCompleteListener{ task ->
+                                    if(task.isSuccessful){
+                                        if (task.isSuccessful) {
+                                            Log.d(TAG, "Email sent.")
+                                            Toast.makeText(baseContext, "Verification email sent.", Toast.LENGTH_SHORT).show()
+                                            val loginIntent = Intent(this, LoginAuthFirebase::class.java)
+                                            startActivity(loginIntent)
+                                            finish()
+                                        } else {
+                                            Log.w(TAG, "Failed to send verification email.\n" +
+                                                    "${task.exception}")
+                                            Toast.makeText(baseContext, "Failed to send verification email.\n${task.exception}", Toast.LENGTH_SHORT).show()
+                                        }
+                                    }
+                                }
+                        }
+                    }
                 }else{
                     Toast.makeText(baseContext, "Authentication failed: ${task.exception?.message}", Toast.LENGTH_SHORT).show()
                 }
             }
     }
-
-    private fun sendVerificationEmail() {
-        val user = auth.currentUser
-        user?.let {
-            val actionCodeSettings = ActionCodeSettings.newBuilder()
-                .setUrl("https://biztex.page.link/mVFa?login=true")
-                .setAndroidPackageName(
-                    "com.biztex.manage",
-                    true,
-                    null
-                )
-                .setHandleCodeInApp(true)
-                .build()
-            it.sendEmailVerification(actionCodeSettings)
-                .addOnCompleteListener{ task ->
-                    if (task.isSuccessful) {
-                        Log.d(TAG, "Email sent.")
-                        Toast.makeText(baseContext, "Verification email sent.", Toast.LENGTH_SHORT).show()
-                        val loginIntent = Intent(this, LoginAuthFirebase::class.java)
-                        startActivity(loginIntent)
-                        finish()
-                    } else {
-                        Log.w(TAG, "Failed to send verification email.\n" +
-                                "${task.exception}")
-                        Toast.makeText(baseContext, "Failed to send verification email.\n${task.exception}", Toast.LENGTH_SHORT).show()
-                    }
-                }
-        }
-    }
-
 
     companion object{
         private const val TAG = "Authentication_result";

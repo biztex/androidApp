@@ -27,4 +27,5 @@
     <string name="edit_text_password_confirm">Confirm Password</string>
     <string name="edit_text_email">Email</string>
     <string name="action_logout">Logout</string>
+
 </resources>
